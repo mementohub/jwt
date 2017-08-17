@@ -1,0 +1,36 @@
+{
+    "name": "imemento/jwt",
+    "description": "Custom JWT logic",
+    "homepage": "https://gitlab.com/imemento/composer/jwt",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "George Stan",
+            "email": "contact@georgestan.com",
+            "homepage": "http://imemento.com"
+        }
+    ],
+    "require": {
+        "php" : "^5.6|^7.0",
+        "firebase/php-jwt": "^5.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^5.7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Imemento\\JWT\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Imemento\\JWT\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
