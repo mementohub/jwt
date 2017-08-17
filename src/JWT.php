@@ -13,19 +13,9 @@ class JWT
 {
 
     /**
-     * @var int
-     */
-    protected $leeway = 3;
-
-    /**
-     * @var string
-     */
-    protected $alg = 'RS256';
-
-    /**
      * @var
      */
-    protected $token;
+    protected $jwt;
 
     /**
      * @var
@@ -37,19 +27,20 @@ class JWT
      */
     protected $payload;
 
+    /**
+     * @var
+     */
+    protected $publicKey;
+
 
     /**
      * JWT constructor.
      *
-     * @param $token
+     * @param $jwt
      */
-    public function __construct($token)
+    public function __construct($jwt)
     {
-        FirebaseJWT::$leeway = $this->leeway;
-
-        $this->token = $token;
-
-        $this->setPayload();
+        $this->jwt = $jwt;
     }
 
     /**
@@ -58,22 +49,9 @@ class JWT
      */
     public function setLeeway($leeway)
     {
-        $this->leeway = $leeway;
+        FirebaseJWT::$leeway = $leeway;
 
         return $this;
-    }
-
-    public function getLeeway()
-    {
-        return $this->leeway;
-    }
-
-    /**
-     *
-     */
-    public function validate()
-    {
-
     }
 
     /**
@@ -81,22 +59,30 @@ class JWT
      */
     public function getIssuer()
     {
-        return $this->get('iss');
-    }
+        //if already decoded, just return it
+        if(!is_null($this->issuer))
+            return $this->issuer;
 
-    /**
-     * @throws \Exception
-     */
-    public function setPayload()
-    {
-        $elements = explode('.', $this->token);
+        //get the issuer from payload without verifying the signature and the timestamps
+        $tks = explode('.', $this->jwt);
 
-        if(!isset($elements[1]))
-            throw new \Exception('Payload missing.');
+        if(count($tks) !== 3) {
+            throw new \UnexpectedValueException('Wrong number of segments.');
+        }
 
-        $this->payload = FirebaseJWT::jsonDecode(
-            FirebaseJWT::urlsafeB64Decode($elements[1])
-        );
+        $bodyb64 = $tks[1];
+
+        if(null === $payload = FirebaseJWT::jsonDecode(FirebaseJWT::urlsafeB64Decode($bodyb64))) {
+            throw new \UnexpectedValueException('Invalid claims encoding.');
+        }
+
+        if(empty($payload->iss)) {
+            throw new \UnexpectedValueException('Issuer not set.');
+        }
+
+        $this->issuer = $payload->iss;
+
+        return $this->issuer;
     }
 
     /**
@@ -122,23 +108,30 @@ class JWT
     }
 
     /**
-     * @param $jwt
-     * @param $publicKey
+     * @param        $publicKey
+     * @param string $alg
      * @return mixed
      */
-    public function decode($jwt, $publicKey)
+    public function decode($publicKey, $alg = 'RS256')
     {
-        return FirebaseJWT::decode($jwt, $publicKey, [self::ALG]);
+        $key = openssl_get_publickey(file_get_contents($publicKey));
+
+        $this->payload = FirebaseJWT::decode($this->jwt, $key, [$alg]);
+
+        return $this->payload;
     }
 
     /**
-     * @param $token
-     * @param $privateKey
+     * @param        $payload
+     * @param        $privateKey
+     * @param string $alg
      * @return mixed
      */
-    public static function encode($token, $privateKey)
+    public static function encode($payload, $privateKey, $alg = 'RS256')
     {
-        return FirebaseJWT::encode($token, $privateKey, self::ALG);
+        $key = openssl_get_privatekey(file_get_contents($privateKey));
+
+        return FirebaseJWT::encode($payload, $key, $alg);
     }
 
 }
