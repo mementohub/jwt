@@ -3,6 +3,8 @@
 namespace Imemento\JWT;
 
 use Firebase\JWT\JWT as FirebaseJWT;
+use Imemento\JWT\Exceptions\InvalidTokenException;
+use Imemento\JWT\Exceptions\TokenNotDecodedException;
 
 /**
  * Class JWT
@@ -56,6 +58,7 @@ class JWT
 
     /**
      * @return mixed
+     * @throws InvalidTokenException
      */
     public function getIssuer()
     {
@@ -67,17 +70,17 @@ class JWT
         $tks = explode('.', $this->jwt);
 
         if(count($tks) !== 3) {
-            throw new \UnexpectedValueException('Wrong number of segments.');
+            throw new InvalidTokenException('Wrong number of segments.');
         }
 
         $bodyb64 = $tks[1];
 
         if(null === $payload = FirebaseJWT::jsonDecode(FirebaseJWT::urlsafeB64Decode($bodyb64))) {
-            throw new \UnexpectedValueException('Invalid claims encoding.');
+            throw new InvalidTokenException('Invalid claims encoding.');
         }
 
         if(empty($payload->iss)) {
-            throw new \UnexpectedValueException('Issuer not set.');
+            throw new InvalidTokenException('Issuer not set.');
         }
 
         $this->issuer = $payload->iss;
@@ -96,7 +99,11 @@ class JWT
             return $this->payload[$key];
         }
 
-        throw new \Exception('Key not in payload.');
+        if(empty($this->payload)) {
+            throw new TokenNotDecodedException('Token is not decoded yet.');
+        }
+
+        throw new \UnexpectedValueException('Key not in payload.');
     }
 
     /**
