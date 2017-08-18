@@ -1,9 +1,9 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Imemento\JWT\Exceptions\InvalidTokenException;
-use Imemento\JWT\Exceptions\TokenNotDecodedException;
-use Imemento\JWT\JWT;
+use iMemento\JWT\Exceptions\InvalidTokenException;
+use iMemento\JWT\Exceptions\TokenNotDecodedException;
+use iMemento\JWT\JWT;
 
 /**
  * @covers JWT

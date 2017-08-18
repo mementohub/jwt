@@ -19,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Imemento\\JWT\\": "src"
+            "iMemento\\JWT\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Imemento\\JWT\\Test\\": "tests"
+            "iMemento\\JWT\\Test\\": "tests"
         }
     },
     "scripts": {

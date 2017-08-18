@@ -1,6 +1,6 @@
 <?php
 
-namespace Imemento\JWT\Exceptions;
+namespace iMemento\JWT\Exceptions;
 
 use Exception;
 
