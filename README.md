@@ -1,22 +1,30 @@
-## Our custom JWT wrapper
-It can be required anywhere is needed to work with JWT. It is framework independent.
+# iMemento JWT Wrapper
 
-### Install
-Require this package with composer using the following command:
+A custom JWT Wrapper to be used in iMemento projects.
+
+It uses the **RS256** algorythm and it is framework independent.
+
+## Install
 ```bash
 composer require imemento/jwt
 ```
 
-### Usage
+## Usage
+```php
+use iMemento\JWT\JWT;
+```
 
-##### Encoding
+### Encoding
 To encode a JWT just use the `encode` static method:
 ```php
-JWT::encode($payload, $privateKey, $alg);
+/**
+ * $payload object/array
+ * $privateKey  string  the key used to sign the token
+ */
+$token = JWT::encode($payload, $privateKey);
 ```
-`$payload` must be object/array. `$privateKey` is the path to a OpenSSL private key or a secret hash. `$alg` is the optional algorithm and defaults to 'RS256'. Check out https://github.com/firebase/php-jwt for more options.
 
-##### Decoding
+### Decoding
 To decode a JWT we must follow the next steps.
 
 1. Instantiate the class with the token we want to decode:
