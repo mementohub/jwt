@@ -9,7 +9,7 @@ use iMemento\JWT\Exceptions\TokenNotDecodedException;
 /**
  * Class JWT
  *
- * @package Imemento\JWT
+ * @package iMemento\JWT
  */
 class JWT
 {
