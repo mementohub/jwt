@@ -19,7 +19,7 @@ class Payload
     public static function createPayload(array $data)
     {
         $payload = [
-            'exp' => time(),
+            'exp' => time() + 60 * 60,
             'nbf' => time(),
             'iat' => time(),
             'jti' => uniqid(),
