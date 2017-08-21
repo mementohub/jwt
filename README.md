@@ -2,7 +2,7 @@
 
 A custom JWT Wrapper to be used in iMemento projects.
 
-It uses the **RS256** algorythm and it is framework independent.
+It uses the **RS256** algorithm and it is framework independent.
 
 ## Install
 ```bash
@@ -19,7 +19,7 @@ To encode a JWT just use the `encode` static method:
 ```php
 /**
  * $payload object/array
- * $privateKey  string  the key used to sign the token
+ * $privateKey  mixed  the key used to sign the token (path or actual key)
  */
 $token = JWT::encode($payload, $privateKey);
 ```

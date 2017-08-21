@@ -116,14 +116,11 @@ class JWT
 
     /**
      * @param        $publicKey
-     * @param string $alg
      * @return mixed
      */
-    public function decode($publicKey, $alg = 'RS256')
+    public function decode($publicKey)
     {
-        $key = openssl_get_publickey(file_get_contents($publicKey));
-
-        $this->payload = FirebaseJWT::decode($this->jwt, $key, [$alg]);
+        $this->payload = FirebaseJWT::decode($this->jwt, $publicKey, ['RS256']);
 
         return $this->payload;
     }
@@ -131,14 +128,11 @@ class JWT
     /**
      * @param        $payload
      * @param        $privateKey
-     * @param string $alg
      * @return mixed
      */
-    public static function encode($payload, $privateKey, $alg = 'RS256')
+    public static function encode($payload, $privateKey)
     {
-        $key = openssl_get_privatekey(file_get_contents($privateKey));
-
-        return FirebaseJWT::encode($payload, $key, $alg);
+        return FirebaseJWT::encode($payload, $privateKey, 'RS256');
     }
 
 }
