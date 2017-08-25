@@ -14,15 +14,16 @@ class Payload
      * Returns a payload that can be used in a jwt
      *
      * @param array $data
+     * @param array $options
      * @return array
      */
-    public static function createPayload(array $data)
+    public static function createPayload(array $data, array $options = [])
     {
         $payload = [
             'exp' => time() + 60 * 60,
             'nbf' => time(),
             'iat' => time(),
-            'jti' => uniqid(),
+            'jti' => uniqid(null, true),
         ];
 
         return array_merge($payload, $data);
