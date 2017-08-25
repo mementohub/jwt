@@ -21,9 +21,9 @@ class Payload
     {
         $payload = [
             'exp' => time() + 60 * 60,
-            'nbf' => time(),
-            'iat' => time(),
-            'jti' => uniqid(null, true),
+            #'nbf' => time(),
+            #'iat' => time(),
+            #'jti' => uniqid(null, true),
         ];
 
         return array_merge($payload, $data);
