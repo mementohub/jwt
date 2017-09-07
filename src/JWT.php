@@ -66,6 +66,10 @@ class JWT
         if(!is_null($this->issuer))
             return $this->issuer;
 
+        if(empty($this->jwt)) {
+            throw new InvalidTokenException('The token is missing or empty.');
+        }
+
         //get the issuer from payload without verifying the signature and the timestamps
         $tks = explode('.', $this->jwt);
 
