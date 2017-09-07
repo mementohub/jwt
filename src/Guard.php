@@ -13,16 +13,19 @@ class Guard
 {
 
     /**
+     * Decoded Consumer JWT
      * @var
      */
     protected $consumer;
 
     /**
+     * Decoded Perms JWT
      * @var
      */
     protected $permissions;
 
     /**
+     * Decoded Auth JWT
      * @var
      */
     protected $user;
