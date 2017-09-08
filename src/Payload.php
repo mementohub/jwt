@@ -38,8 +38,8 @@ class Payload
     public static function getUser($payload)
     {
         return [
-            'id' => $payload->sub,
-            'name' => $payload->name,
+            'id' => $payload->uid,
+            'agency_id' => $payload->aid,
         ];
     }
     

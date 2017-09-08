@@ -13,6 +13,12 @@ class Guard
 {
 
     /**
+     * Roles array containing user-agency roles and consumer roles
+     * @var
+     */
+    protected $roles;
+
+    /**
      * Decoded Consumer JWT
      * @var
      */
@@ -54,7 +60,6 @@ class Guard
         if($this->consumer->iss !== $this->permissions->cns) {
             throw new InvalidPermissionsException('The permissions are not issued for the current consumer!');
         }
-
     }
 
     /**
@@ -70,6 +75,14 @@ class Guard
             return $jwt->decode($public_key);
         }
         return null;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->permissions->roles;
     }
 
     /**
