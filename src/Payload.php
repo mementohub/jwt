@@ -17,7 +17,7 @@ class Payload
      * @param array $options
      * @return array
      */
-    public static function createPayload(array $data, array $options = [])
+    public static function create(array $data, array $options = [])
     {
         $payload = [
             'exp' => time() + 60 * 60,

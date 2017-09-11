@@ -1,7 +1,6 @@
 # iMemento JWT Wrapper
 
 A custom JWT Wrapper to be used in iMemento projects.
-
 It uses the **RS256** algorithm and it is framework independent.
 
 ## Install
@@ -41,3 +40,10 @@ To decode a JWT we must follow the next steps.
 	```php
 	$payload = $jwt->decode($publicKey);
 	```
+
+### Additional Classes
+*Guard.php* - Decrypts the token and is used to extract the permissions from it.
+
+*Issuer.php* - Represents the current application.
+
+*Payload.php* - Is used to create a standard payload for the JWT.
