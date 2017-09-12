@@ -1,7 +1,7 @@
 {
     "name": "imemento/jwt",
     "description": "Custom JWT logic",
-    "homepage": "https://gitlab.com/imemento/composer/jwt",
+    "homepage": "https://gitlab.com/imemento/composer/packages/jwt",
     "license": "MIT",
     "authors": [
         {
