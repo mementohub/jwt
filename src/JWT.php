@@ -3,7 +3,7 @@
 namespace iMemento\JWT;
 
 use Firebase\JWT\JWT as FirebaseJWT;
-use iMemento\JWT\Exceptions\InvalidTokenException;
+use iMemento\Exceptions\InvalidTokenException;
 use iMemento\JWT\Exceptions\TokenNotDecodedException;
 
 /**

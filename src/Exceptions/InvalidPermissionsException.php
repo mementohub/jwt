@@ -2,7 +2,7 @@
 
 namespace iMemento\JWT\Exceptions;
 
-use Exception;
+use iMemento\Exceptions\Exception;
 
 class InvalidPermissionsException extends Exception
 {

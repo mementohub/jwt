@@ -2,6 +2,10 @@
 
 namespace iMemento\JWT;
 
+use Firebase\JWT\ExpiredException;
+use iMemento\Exceptions\ExpiredAuthTokenException;
+use iMemento\Exceptions\ExpiredConsumerTokenException;
+use iMemento\Exceptions\ExpiredPermsTokenException;
 use iMemento\JWT\Exceptions\InvalidPermissionsException;
 
 /**
@@ -48,13 +52,30 @@ class Guard
 
     /**
      * @param $jwt
+     * @throws ExpiredAuthTokenException
+     * @throws ExpiredConsumerTokenException
+     * @throws ExpiredPermsTokenException
      * @throws InvalidPermissionsException
      */
     public function unpack($jwt)
     {
-        $this->consumer = $this->decode($jwt);
-        $this->permissions = $this->decode($this->consumer->perms);
-        $this->user = $this->decode($this->permissions->user);
+        try {
+            $this->consumer = $this->decode($jwt);
+        } catch (ExpiredException $e) {
+            throw new ExpiredConsumerTokenException('The Consumer token has expired.');
+        }
+
+        try {
+            $this->permissions = $this->decode($this->consumer->perms);
+        } catch (ExpiredException $e) {
+            throw new ExpiredPermsTokenException('The Permissions token has expired.');
+        }
+
+        try {
+            $this->user = $this->decode($this->permissions->user);
+        } catch (ExpiredException $e) {
+            throw new ExpiredAuthTokenException('The Auth token has expired.');
+        }
 
         //if all decoding went well, verify consumer is correct
         if($this->consumer->iss !== $this->permissions->cns) {
