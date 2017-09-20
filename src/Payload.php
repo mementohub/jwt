@@ -7,26 +7,51 @@ namespace iMemento\JWT;
  *
  * @package iMemento\JWT
  */
+use iMemento\Exceptions\InvalidTokenException;
+
+/**
+ * Class Payload
+ *
+ * @package iMemento\JWT
+ */
 class Payload
 {
+
+    /**
+     * @var int
+     */
+    protected static $exp = 15 * 60;
 
     /**
      * Returns a payload that can be used in a jwt
      *
      * @param array $data
-     * @param array $options
      * @return array
      */
-    public static function create(array $data, array $options = [])
+    public static function create(array $data)
     {
         $payload = [
-            'exp' => time() + 60 * 60,
-            #'nbf' => time(),
-            #'iat' => time(),
-            #'jti' => uniqid(null, true),
+            'exp' => time() + self::$exp,
         ];
 
         return array_merge($payload, $data);
+    }
+
+    /**
+     * Refreshes an expired jwt
+     *
+     * @param array $payload
+     * @return array
+     * @throws InvalidTokenException
+     */
+    public static function refresh(array $payload)
+    {
+        if(empty($payload['exp']))
+            throw new InvalidTokenException('The exp field is missing from the JWT.');
+
+        $payload['exp'] = time() + self::$exp;
+
+        return $payload;
     }
 
     /**

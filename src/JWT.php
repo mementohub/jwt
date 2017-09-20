@@ -66,22 +66,7 @@ class JWT
         if(!is_null($this->issuer))
             return $this->issuer;
 
-        if(empty($this->jwt)) {
-            throw new InvalidTokenException('The token is missing or empty.');
-        }
-
-        //get the issuer from payload without verifying the signature and the timestamps
-        $tks = explode('.', $this->jwt);
-
-        if(count($tks) !== 3) {
-            throw new InvalidTokenException('Wrong number of segments.');
-        }
-
-        $bodyb64 = $tks[1];
-
-        if(null === $payload = FirebaseJWT::jsonDecode(FirebaseJWT::urlsafeB64Decode($bodyb64))) {
-            throw new InvalidTokenException('Invalid claims encoding.');
-        }
+        $payload = $this->getPayload();
 
         if(empty($payload->iss)) {
             throw new InvalidTokenException('Issuer not set.');
@@ -112,9 +97,29 @@ class JWT
 
     /**
      * @return mixed
+     * @throws InvalidTokenException
      */
     public function getPayload()
     {
+        if(empty($this->jwt)) {
+            throw new InvalidTokenException('The token is missing or empty.');
+        }
+
+        //get the issuer from payload without verifying the signature and the timestamps
+        $tks = explode('.', $this->jwt);
+
+        if(count($tks) !== 3) {
+            throw new InvalidTokenException('Wrong number of segments.');
+        }
+
+        $bodyb64 = $tks[1];
+
+        if(null === $payload = FirebaseJWT::jsonDecode(FirebaseJWT::urlsafeB64Decode($bodyb64))) {
+            throw new InvalidTokenException('Invalid claims encoding.');
+        }
+
+        $this->payload = $payload;
+
         return $this->payload;
     }
 
