@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use iMemento\JWT\Exceptions\InvalidTokenException;
+use iMemento\Exceptions\InvalidTokenException;
 use iMemento\JWT\Exceptions\TokenNotDecodedException;
 use iMemento\JWT\JWT;
 
