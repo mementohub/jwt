@@ -66,19 +66,19 @@ class Guard
         }
 
         try {
+            $this->user = $this->decode($this->permissions->user);
+        } catch (ExpiredException $e) {
+            throw new ExpiredAuthTokenException('The Authentication token has expired.');
+        }
+
+        try {
             $this->permissions = $this->decode($this->consumer->perms);
         } catch (ExpiredException $e) {
             throw new ExpiredPermsTokenException('The Permissions token has expired.');
         }
 
-        try {
-            $this->user = $this->decode($this->permissions->user);
-        } catch (ExpiredException $e) {
-            throw new ExpiredAuthTokenException('The Auth token has expired.');
-        }
-
         //if all decoding went well, verify consumer is correct
-        if($this->consumer->iss !== $this->permissions->cns) {
+        if ($this->consumer->iss !== $this->permissions->cns) {
             throw new InvalidPermissionsException('The permissions are not issued for the current consumer!');
         }
     }
@@ -89,7 +89,7 @@ class Guard
      */
     protected function decode($jwt)
     {
-        if(!empty($jwt)) {
+        if (!empty($jwt)) {
             $jwt = new JWT($jwt);
             $issuer = $jwt->getIssuer();
             $public_key = openssl_get_publickey(file_get_contents(base_path('keys/'.$issuer)));
@@ -119,7 +119,7 @@ class Guard
 
         //create the permissions array
         $ua_permissions = [];
-        if($user) {
+        if ($user) {
             foreach($model->roles as $role) {
                 $ua_permissions = array_merge($ua_permissions, $permissions[$role]);
             }
@@ -127,7 +127,7 @@ class Guard
 
         //create the consumer permissions array
         $consumer_permissions = [];
-        if(!empty($model->consumer_roles)) {
+        if (!empty($model->consumer_roles)) {
             foreach ($model->consumer_roles as $role) {
                 $consumer_permissions = array_merge($consumer_permissions, $permissions[$role]);
             }
@@ -136,7 +136,7 @@ class Guard
         //intersect the permissions arrays
         //if user has no role, just use the consumer permissions
         $model->permissions = $consumer_permissions;
-        if(!empty($ua_permissions)) {
+        if (!empty($ua_permissions)) {
             $model->permissions = array_intersect($ua_permissions, $consumer_permissions);
         }
 
