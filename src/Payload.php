@@ -47,7 +47,7 @@ class Payload
     public static function refresh(array $payload)
     {
         if(empty($payload['exp']))
-            throw new InvalidTokenException('The exp field is missing from the JWT.');
+            throw new InvalidTokenException('The exp field is missing from the token.');
 
         $payload['exp'] = time() + self::$exp;
 
