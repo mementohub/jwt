@@ -115,12 +115,12 @@ class Guard
         $model->roles = $roles->ua;
         $model->consumer_roles = $roles->cns;
 
-        //TODO: handle the exception when a given role is not defined
 
         //create the permissions array
         $ua_permissions = [];
         if ($user) {
             foreach($model->roles as $role) {
+                //TODO: handle the exceptions when a given role is not defined
                 $ua_permissions = array_merge($ua_permissions, $permissions[$role]);
             }
         }
@@ -129,6 +129,7 @@ class Guard
         $consumer_permissions = [];
         if (!empty($model->consumer_roles)) {
             foreach ($model->consumer_roles as $role) {
+                //TODO: handle the exceptions when a given role is not defined
                 $consumer_permissions = array_merge($consumer_permissions, $permissions[$role]);
             }
         }
@@ -139,8 +140,6 @@ class Guard
         if (!empty($ua_permissions)) {
             $model->permissions = array_intersect($ua_permissions, $consumer_permissions);
         }
-
-        //TODO: maybe intersect the roles too
 
         return $model;
     }
