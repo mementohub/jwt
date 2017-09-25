@@ -84,11 +84,13 @@ class JWT
      */
     public function get(string $key)
     {
-        if(isset($this->payload[$key])) {
-            return $this->payload[$key];
+        $payload = (array) $this->payload;
+
+        if(isset($payload[$key])) {
+            return $payload[$key];
         }
 
-        if(empty($this->payload)) {
+        if(empty($payload)) {
             throw new TokenNotDecodedException('Token is not decoded yet.');
         }
 
