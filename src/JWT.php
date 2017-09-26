@@ -29,11 +29,6 @@ class JWT
      */
     protected $payload;
 
-    /**
-     * @var
-     */
-    protected $publicKey;
-
 
     /**
      * JWT constructor.
@@ -144,6 +139,24 @@ class JWT
     public static function encode($payload, $privateKey)
     {
         return FirebaseJWT::encode($payload, $privateKey, 'RS256');
+    }
+
+    /**
+     * @param $path
+     * @return resource
+     */
+    public static function getPublicKey($path)
+    {
+        return openssl_get_publickey(file_get_contents($path));
+    }
+
+    /**
+     * @param $path
+     * @return bool|resource
+     */
+    public static function getPrivateKey($path)
+    {
+        return openssl_get_privatekey(file_get_contents($path));
     }
 
 }

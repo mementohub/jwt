@@ -92,7 +92,7 @@ class Guard
         if (!empty($jwt)) {
             $jwt = new JWT($jwt);
             $issuer = $jwt->getIssuer();
-            $public_key = openssl_get_publickey(file_get_contents(base_path('keys/'.$issuer)));
+            $public_key = JWT::getPublicKey(base_path('keys/'.$issuer));
             return $jwt->decode($public_key);
         }
         return null;
@@ -128,6 +128,41 @@ class Guard
     public function getUser()
     {
         return $this->user;
+    }
+
+
+    /**
+     * @param $config
+     * @param $data
+     * @return string
+     */
+    public static function generateTestToken($config, $data)
+    {
+        //load the test private keys
+        $private_key_auth = JWT::getPrivateKey($config['test']['private']['auth']);
+        $private_key_perms = JWT::getPrivateKey($config['test']['private']['perms']);
+        $private_key_consumer = JWT::getPrivateKey($config['test']['private']['consumer']);
+
+        //create the auth token, if user present
+        $user_token = null;
+        if (!empty($data['user'])) {
+            $payload = Payload::create($data['user']);
+            $user_token = JWT::encode($payload, $private_key_auth);
+            $data['perms']['user'] = $user_token;
+        }
+
+        //create the perms token
+        if (!empty($data['perms'])) {
+            $payload = Payload::create($data['perms']);
+            $perms_token = JWT::encode($payload, $private_key_perms);
+            $data['perms'] = $perms_token;
+        }
+
+        //create the consumer token
+        $payload = Payload::create($data);
+        $token = JWT::encode($payload, $private_key_consumer);
+
+        return $token;
     }
     
 }
