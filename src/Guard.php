@@ -99,52 +99,6 @@ class Guard
     }
 
     /**
-     * Adds info taken from the JWT to a User model
-     *
-     * @param $model
-     * @param $user
-     * @param $roles
-     * @param $permissions
-     * @return mixed
-     */
-    public static function createUserModel($model, $user, $roles, $permissions)
-    {
-        //build the User model
-        $model->id = $user ? $user->uid : null;
-        $model->agency_id = $user ? $user->aid : null;
-        $model->roles = $roles->ua;
-        $model->consumer_roles = $roles->cns;
-
-
-        //create the permissions array
-        $ua_permissions = [];
-        if ($user) {
-            foreach($model->roles as $role) {
-                //TODO: handle the exceptions when a given role is not defined
-                $ua_permissions = array_merge($ua_permissions, $permissions[$role]);
-            }
-        }
-
-        //create the consumer permissions array
-        $consumer_permissions = [];
-        if (!empty($model->consumer_roles)) {
-            foreach ($model->consumer_roles as $role) {
-                //TODO: handle the exceptions when a given role is not defined
-                $consumer_permissions = array_merge($consumer_permissions, $permissions[$role]);
-            }
-        }
-
-        //intersect the permissions arrays
-        //if user has no role, just use the consumer permissions
-        $model->permissions = $consumer_permissions;
-        if (!empty($ua_permissions)) {
-            $model->permissions = array_intersect($ua_permissions, $consumer_permissions);
-        }
-
-        return $model;
-    }
-
-    /**
      * @return mixed
      */
     public function getRoles()
