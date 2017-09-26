@@ -66,15 +66,15 @@ class Guard
         }
 
         try {
-            $this->user = $this->decode($this->permissions->user);
-        } catch (ExpiredException $e) {
-            throw new ExpiredAuthTokenException('The Authentication token has expired.');
-        }
-
-        try {
             $this->permissions = $this->decode($this->consumer->perms);
         } catch (ExpiredException $e) {
             throw new ExpiredPermsTokenException('The Permissions token has expired.');
+        }
+
+        try {
+            $this->user = $this->decode($this->permissions->user);
+        } catch (ExpiredException $e) {
+            throw new ExpiredAuthTokenException('The Authentication token has expired.');
         }
 
         //if all decoding went well, verify consumer is correct

@@ -62,6 +62,9 @@ class Payload
      */
     public static function getUser($payload)
     {
+        if(is_null($payload))
+            return [];
+
         return [
             'id' => $payload->uid,
             'agency_id' => $payload->aid,
