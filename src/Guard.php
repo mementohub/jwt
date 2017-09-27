@@ -145,8 +145,8 @@ class Guard
 
         //create the auth token, if user present
         $user_token = null;
-        if (!empty($data['user'])) {
-            $payload = Payload::create($data['user']);
+        if (!empty($data['perms']['user'])) {
+            $payload = Payload::create($data['perms']['user']);
             $user_token = JWT::encode($payload, $private_key_auth);
         }
         $data['perms']['user'] = $user_token;
