@@ -20,7 +20,8 @@ class Payload
     /**
      * @var int
      */
-    protected static $exp = 15 * 60;
+    //protected static $exp = 15 * 60;
+    protected static $exp = 30;
 
     /**
      * Returns a payload that can be used in a jwt
