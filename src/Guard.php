@@ -132,11 +132,11 @@ class Guard
 
 
     /**
-     * @param $config
-     * @param $data
+     * @param array $config Usually the config/keys.php array
+     * @param array $data   The structure of the jwt
      * @return string
      */
-    public static function generateTestToken($config, $data)
+    public static function generateTestToken(array $config, array $data)
     {
         //load the test private keys
         $private_key_auth = JWT::getPrivateKey($config['test']['private']['auth']);
