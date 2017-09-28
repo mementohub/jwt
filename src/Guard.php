@@ -84,15 +84,18 @@ class Guard
     }
 
     /**
-     * @param $jwt
+     * @param string $token
      * @return mixed|null
      */
-    protected function decode($jwt)
+    protected function decode(string $token)
     {
-        if (!empty($jwt)) {
-            $jwt = new JWT($jwt);
+        if (!empty($token)) {
+            $jwt = new JWT($token);
             $issuer = $jwt->getIssuer();
+
+            //TODO: get the key properly once we decide on a method
             $public_key = JWT::getPublicKey(base_path('keys/'.$issuer));
+
             return $jwt->decode($public_key);
         }
         return null;
