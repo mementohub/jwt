@@ -20,7 +20,7 @@ To encode a JWT just use the `encode` static method:
  * $payload object/array
  * $privateKey mixed the key used to sign the token
  */
-$token = JWT::encode($payload, $privateKey);
+$token = JWT::encode($payload, $private_key);
 ```
 
 ### Decoding
@@ -38,7 +38,7 @@ To decode a JWT we must follow the next steps.
 
 3. Get the payload and check the signature at the same time:
 	```php
-	$payload = $jwt->decode($publicKey);
+	$payload = $jwt->decode($public_key);
 	```
 
 ### Additional Classes
