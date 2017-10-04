@@ -87,7 +87,7 @@ class Guard
      * @param string $token
      * @return mixed|null
      */
-    protected function decode(string $token)
+    protected function decode(string $token = null)
     {
         if (!empty($token)) {
             $jwt = new JWT($token);
