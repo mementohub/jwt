@@ -41,4 +41,9 @@ class Issuer
         $this->session_id = $session_id;
         $this->token_store = $token_store;
     }
+
+    public function setSessionId($session_id)
+    {
+        $this->session_id = $session_id;
+    }
 }

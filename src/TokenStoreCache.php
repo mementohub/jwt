@@ -20,19 +20,19 @@ class TokenStoreCache implements TokenStore
     /**
      * TokenStoreCache constructor.
      *
-     * @param Cache $cache
      */
-    public function __construct(Cache $cache)
+    public function __construct()
     {
-        $this->store = $cache;
+        $this->store = app('cache');
     }
 
     /**
      * @param $key
+     * @return \Illuminate\Contracts\Cache\Repository|mixed
      */
     public function get($key)
     {
-        $this->store->get($key);
+        return $this->store->get($key);
     }
 
     /**
@@ -40,17 +40,18 @@ class TokenStoreCache implements TokenStore
      * @param $token
      * @param $minutes
      */
-    public function put($key, $token, $minutes = 48 * 60 * 60)
+    public function put($key, $token, $minutes)
     {
-        $this->store->put($key, $token, $minutes);
+        return $this->store->put($key, $token, $minutes);
     }
 
     /**
      * @param $key
+     * @return \Illuminate\Contracts\Cache\Repository|mixed
      */
     public function forget($key)
     {
-        $this->store->get($key);
+        return $this->store->get($key);
     }
 
 }

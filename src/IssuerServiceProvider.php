@@ -28,18 +28,27 @@ class IssuerServiceProvider extends ServiceProvider
 
             $private_key = openssl_get_privatekey(file_get_contents(config('keys.private')));
 
-            return new Issuer(config('app.name'), $private_key, $session_id);
+            //the token store class from config
+            $class = '\\'.ltrim(config('jwt.token_store'), '\\');
+            $token_store = new $class;
+
+            return new Issuer(config('app.name'), $private_key, $session_id, $token_store);
 
         });
     }
 
     protected function setupConfig()
     {
-        $source = realpath(__DIR__.'/../resources/config/keys.php');
+        $jwt = realpath(__DIR__.'/../resources/config/jwt.php');
+        $keys = realpath(__DIR__.'/../resources/config/keys.php');
 
-        $this->publishes([$source => config_path('keys.php')], 'config');
+        $this->publishes([
+            $jwt => config_path('jwt.php'),
+            $keys => config_path('keys.php'),
+        ], 'config');
 
-        $this->mergeConfigFrom($source, 'keys');
+        $this->mergeConfigFrom($jwt, 'jwt');
+        $this->mergeConfigFrom($keys, 'keys');
     }
 
 }
