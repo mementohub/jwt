@@ -2,7 +2,6 @@
 
 namespace iMemento\JWT;
 
-use Auth;
 use Illuminate\Support\ServiceProvider;
 
 class IssuerServiceProvider extends ServiceProvider
@@ -24,15 +23,13 @@ class IssuerServiceProvider extends ServiceProvider
     {
         $this->app->singleton('issuer', function ($app) {
 
-            $session_id = Auth::user()->session_id ?? null;
-
             $private_key = openssl_get_privatekey(file_get_contents(config('keys.private')));
 
             //the token store class from config
             $class = '\\'.ltrim(config('jwt.token_store'), '\\');
             $token_store = new $class;
 
-            return new Issuer(config('app.name'), $private_key, $session_id, $token_store);
+            return new Issuer(config('app.name'), $private_key, $token_store);
 
         });
     }
