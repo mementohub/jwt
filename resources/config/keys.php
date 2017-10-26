@@ -12,7 +12,11 @@
 
 return [
 
-    'private' => env('PRIVATE_KEY', base_path('keys/private/id_rsa')),
+    'issuer_api' => env('ISSUER_API', null),
+    'issuer_web' => env('ISSUER_WEB', null),
+
+    'private_api' => env('PRIVATE_KEY_API', base_path('keys/private/id_rsa')),
+    'private_web' => env('PRIVATE_KEY_WEB', base_path('keys/private/id_rsa')),
 
     'public' => [
         'auth' => env('PUBLIC_KEY_AUTH', base_path('keys/auth')),

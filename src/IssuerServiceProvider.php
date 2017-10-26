@@ -21,17 +21,31 @@ class IssuerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('issuer', function ($app) {
+        //issuer api
+        if(config('keys.issuer_api')) {
+            $this->app->singleton('issuer-api', function ($app) {
+                $private_key = openssl_get_privatekey(file_get_contents(config('keys.private_api')));
 
-            $private_key = openssl_get_privatekey(file_get_contents(config('keys.private')));
+                //the token store class from config
+                $class = '\\'.ltrim(config('jwt.token_store'), '\\');
+                $token_store = new $class;
 
-            //the token store class from config
-            $class = '\\'.ltrim(config('jwt.token_store'), '\\');
-            $token_store = new $class;
+                return new Issuer(config('keys.issuer_api'), $private_key, $token_store);
+            });
+        }
 
-            return new Issuer(config('app.name'), $private_key, $token_store);
+        //issuer web
+        if(config('keys.issuer_web')) {
+            $this->app->singleton('issuer-web', function ($app) {
+                $private_key = openssl_get_privatekey(file_get_contents(config('keys.private_web')));
 
-        });
+                //the token store class from config
+                $class = '\\'.ltrim(config('jwt.token_store'), '\\');
+                $token_store = new $class;
+
+                return new Issuer(config('keys.issuer_web'), $private_key, $token_store);
+            });
+        }
     }
 
     protected function setupConfig()
