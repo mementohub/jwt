@@ -20,8 +20,7 @@ class Payload
     /**
      * @var int
      */
-    //protected static $exp = 15 * 60;
-    protected static $exp = 150; //for testing the refresh flow
+    protected static $exp = 15 * 60;
 
     /**
      * Returns a payload that can be used in a jwt
