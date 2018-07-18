@@ -14,9 +14,8 @@ class JWT
 {
     /**
      * @param $leeway
-     * @return $this
      */
-    public static function setLeeway($leeway)
+    public static function setLeeway(int $leeway)
     {
         FirebaseJWT::$leeway = $leeway;
     }
