@@ -3,7 +3,6 @@
 namespace iMemento\JWT;
 
 use Firebase\JWT\JWT as FirebaseJWT;
-use iMemento\Exceptions\InvalidTokenException;
 
 /**
  * Class JWT
