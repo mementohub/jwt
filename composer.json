@@ -1,7 +1,7 @@
 {
     "name": "imemento/jwt",
     "description": "Custom JWT logic",
-    "homepage": "https://gitlab.com/imemento/composer/packages/jwt",
+    "homepage": "https://github.com/mementohub/jwt",
     "license": "MIT",
     "authors": [
         {
@@ -12,10 +12,10 @@
     ],
     "require": {
         "php": "^7.1",
-        "firebase/php-jwt": "^5.0.0"
+        "firebase/php-jwt": "^5.0"
     },
     "require-dev": {
-        "phpunit/phpunit" : "^7.0"
+        "phpunit/phpunit" : "^7.0 || ^8.0 || ^9.0"
     },
     "autoload": {
         "psr-4": {
@@ -24,7 +24,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "iMemento\\JWT\\Test\\": "tests"
+            "iMemento\\JWT\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -33,10 +33,6 @@
     "config": {
         "sort-packages": true
     },
-    "repositories": [
-        {"type": "composer", "url": "https://repo.packagist.com/imemento/"},
-        {"packagist.org": false}
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

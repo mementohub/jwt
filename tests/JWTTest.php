@@ -1,7 +1,8 @@
 <?php
 
-namespace iMemento\JWT;
+namespace iMemento\JWT\Tests;
 
+use iMemento\JWT\JWT;
 use PHPUnit\Framework\TestCase;
 
 /**
