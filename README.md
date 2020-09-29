@@ -1,8 +1,8 @@
 # iMemento JWT Wrapper
-[![Build Status](https://travis-ci.org/mementohub/jwt.svg?branch=master)](https://travis-ci.org/mementohub/jwt)
-[![Latest Stable Version](https://poser.pugx.org/imemento/jwt/v/stable)](https://packagist.org/packages/imemento/jwt)
-[![License](https://poser.pugx.org/imemento/jwt/license)](https://packagist.org/packages/imemento/jwt)
-[![Total Downloads](https://poser.pugx.org/imemento/jwt/downloads)](https://packagist.org/packages/imemento/jwt)
+[![Build Status](https://github.com/mementohub/jwt/workflows/Testing/badge.svg)](https://github.com/mementohub/jwt/actions)
+[![Latest Stable Version](https://img.shields.io/packagist/v/imemento/jwt)](https://packagist.org/packages/imemento/jwt)
+[![License](https://img.shields.io/packagist/l/imemento/jwt)](https://packagist.org/packages/imemento/jwt)
+[![Total Downloads](https://img.shields.io/packagist/dt/imemento/jwt)](https://packagist.org/packages/imemento/jwt)
 
 A custom JWT Wrapper to be used in iMemento projects.
 It uses the **RS256** algorithm and it is framework independent.
